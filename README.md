@@ -1,26 +1,14 @@
-# Doctor_Strange_Filter
-For using the filter all you have to do is download the repo and the libraries. After that just run the code, when the window is opened, open your hand wide open and than you'll see the magic circles.
+<img src="https://i.pinimg.com/originals/3f/35/90/3f3590a3809163db554425361295f121.jpg" widht=100% />
+<h1> Doctor Strange Filter with Python </h1>
+<h3> About the Project </h3>
+<p> This project is a hobby project of mine created with Mediapipe and OpenCV libraries. It is detecting your hand handslandmarks and eith this 
+information creates 2 rings with  opposite rotations. If you want you can add your own rings to magic_circles folder and choose in program for 
+customization. For using to filter all you have to do is set up as instructed below then show your hand to camera and open widley. </p>
 
-Demo 1:
+<h3> Set-Up </h3>
+<h3> Usage </h3>
+<h3> Screen Shots </h3>
 
-
-https://user-images.githubusercontent.com/44752389/167258565-1e8ab8a0-037d-4147-b9f5-80783acb7503.mp4
-
-
-Demo 2:
-
-
-https://user-images.githubusercontent.com/44752389/167258566-078d0ea1-963e-4f8c-8030-b566b0eec7f5.mp4
-
-
-Demo 3:
-
-
-https://user-images.githubusercontent.com/44752389/167258570-7c435fd6-2707-4969-ae90-396548ebde20.mp4
-
-
-> I have used mediapipe's hand detection features for placing and sizing magic circles correctly. 
-
-> For iamges i created a function for replacing blacks pixels with background image.
-
-> If you want to add new magic circle styles all you have to do is create a png img with black background. After that you are good to go. (you can examine images i used)
+<hr>
+<p>This projects is created by <a href="https://github.com/Arslanex">Arslanex</a></p>
+<p>Python Language : OpenCV, Mediapipe
