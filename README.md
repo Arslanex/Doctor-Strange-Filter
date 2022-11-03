@@ -7,8 +7,9 @@ customization. For using to filter all you have to do is set up as instructed be
 
 <h3> Set-Up </h3>
 <h3> Usage </h3>
+<h4> Project Structure </h4>
 <h3> Screen Shots </h3>
 
 <hr>
-<p>This projects is created by <a href="https://github.com/Arslanex">Arslanex</a></p>
+<p><b>This projects is created by <a href="https://github.com/Arslanex">Arslanex</a></b></p>
 <p>Python Language : OpenCV, Mediapipe
