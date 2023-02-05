@@ -6,9 +6,20 @@ information creates 2 rings with  opposite rotations. If you want you can add yo
 customization. For using to filter all you have to do is set up as instructed below then show your hand to camera and open widley. </p>
 
 <h3> Set-Up </h3>
-<h3> Usage </h3>
-<h4> Project Structure </h4>
-<h3> Screen Shots </h3>
+
+- Clone the repo 
+```
+git clone https://github.com/Arslanex/Instagram-Mapping
+```
+- Install requirements
+```
+pip install -r requirements.txt
+```
+- Run the Code
+```
+python Doctor_Stragne_Filter.py
+```
+<h3> Screen Shots and Videos</h3>
 
 <hr>
 
