@@ -21,6 +21,10 @@ python Doctor_Stragne_Filter.py
 ```
 <h3> Screen Shots and Videos</h3>
 
+
+https://user-images.githubusercontent.com/44752389/216837538-bba0281b-de90-4feb-9235-fd53803be736.mp4
+
+
 <hr>
 
 <h4>Languages and Tools :</h4>
