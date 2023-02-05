@@ -11,5 +11,8 @@ customization. For using to filter all you have to do is set up as instructed be
 <h3> Screen Shots </h3>
 
 <hr>
+
+<h4>Languages and Tools :</h4>
+<p>
+<img src="https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54" height=35> <img src="https://img.shields.io/badge/opencv-%23white.svg?style=for-the-badge&logo=opencv&logoColor=white" height=35> <img src="https://user-images.githubusercontent.com/44752389/216836685-7061af91-2d80-4345-b76e-503134c9a4d3.png" height=35 width=100> </p>
 <p><b>This projects is created by <a href="https://github.com/Arslanex">Arslanex</a></b></p>
-<p>Python Language : OpenCV, Mediapipe
