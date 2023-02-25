@@ -1,33 +1,40 @@
-<img src="https://i.pinimg.com/originals/3f/35/90/3f3590a3809163db554425361295f121.jpg" widht=100% />
-<h1> Doctor Strange Filter with Python </h1>
-<h3> About the Project </h3>
-<p> This project is a hobby project of mine created with Mediapipe and OpenCV libraries. It is detecting your hand handslandmarks and eith this 
-information creates 2 rings with  opposite rotations. If you want you can add your own rings to magic_circles folder and choose in program for 
-customization. For using to filter all you have to do is set up as instructed below then show your hand to camera and open widley. </p>
+![Banne](https://i.pinimg.com/originals/3f/35/90/3f3590a3809163db554425361295f121.jpg)
 
-<h3> Set-Up </h3>
+# Doctor Strange Filter with Python
 
-- Clone the repo 
+This project is a test of my skills in computer vision. The project was created using Mediapipe and OpenCV libraries and Python program language. As the name suggests, I tried to replicate the magic circles that appear on the palms of the popular MARVEL hero Dr. Strange when he casts a spell.
+
+To summarize the working logic of the project, the script starts by detecting hand gestures from your device's camera and then calculates the midpoint of your palm and the openness of your palm with these points.  If your hand is open enough, a mask (the filter itself) is created using the previously given images and pasted onto the calculated midpoint.  
+
+Of course, this was a very simple explanation. There are many things to know about perspective, rotating image objects and creating transparent objects during this project. I hope this project will help you to understand these topics :)
+
+## Folder Structure
+
 ```
-git clone https://github.com/Arslanex/Instagram-Mapping
+.
+├── Models                    # Models to be used when creating the filter
+|   ├── Inner Circles         # Circle models to be found on the inner side 
+|   └── Outer Circles         # Circle models to be found on the outer side 
+├── Scripts                   # Scripts required for the program to work 
+├── LICENSE
+├── requirements.txt                   
+└── README.md
 ```
-- Install requirements
-```
-pip install -r requirements.txt
-```
-- Run the Code
-```
-python Doctor_Stragne_Filter.py
-```
-<h3> Screen Shots and Videos</h3>
 
+## Setup
 
-https://user-images.githubusercontent.com/44752389/216837538-bba0281b-de90-4feb-9235-fd53803be736.mp4
+1. Clone this repostiory : `git clone https://github.com/Arslanex/Instagram-Mapping`
+2. Instal requirements : `pip install -r requirements.txt`
+3. Run main.py script : `python main.py`
 
+## Screenshots and Videos
 
-<hr>
-
-<h4>Languages and Tools :</h4>
-<p>
-<img src="https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54" height=35> <img src="https://img.shields.io/badge/opencv-%23white.svg?style=for-the-badge&logo=opencv&logoColor=white" height=35> <img src="https://user-images.githubusercontent.com/44752389/216836685-7061af91-2d80-4345-b76e-503134c9a4d3.png" height=35 width=100> </p>
-<p><b>This projects is created by <a href="https://github.com/Arslanex">Arslanex</a></b></p>
+***
+<p align="center">
+<a href="https://www.instagram.com/_enes.arslan_/?next=%2F">
+<img src="https://img.shields.io/badge/Instagram-000000?style=for-the-badge&logo=instagram&logoColor=white"/>
+<a href="https://www.linkedin.com/in/enes-arslan-/">
+<img src="https://img.shields.io/badge/LinkedIn-000000?style=for-the-badge&logo=linkedin&logoColor=white"/>
+<a href="https://github.com/Arslanex">
+<img src="https://img.shields.io/badge/GitHub-000000?style=for-the-badge&logo=github&logoColor=white"/ >
+</p>
