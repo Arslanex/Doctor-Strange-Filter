@@ -30,9 +30,9 @@ Of course, this was a very simple explanation. There are many things to know abo
 ## Screenshots and Videos (will loaded)
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/44752389/221366707-a1b93627-f246-428a-8397-864493b49d43.jpg" width="200" />
-  <img src="https://user-images.githubusercontent.com/44752389/221366732-49876999-5b7c-4af1-9264-9656ae03f62c.jpg" width="200" /> 
-  <img src="https://user-images.githubusercontent.com/44752389/221366735-d25b821a-c143-4cf5-bf80-eb7da7644f1c.jpg" width="200" />
+  <img src="https://user-images.githubusercontent.com/44752389/221366707-a1b93627-f246-428a-8397-864493b49d43.jpg" width="250" />
+  <img src="https://user-images.githubusercontent.com/44752389/221366732-49876999-5b7c-4af1-9264-9656ae03f62c.jpg" width="250" /> 
+  <img src="https://user-images.githubusercontent.com/44752389/221366735-d25b821a-c143-4cf5-bf80-eb7da7644f1c.jpg" width="250" />
 </p>
 
 <p align="center">
