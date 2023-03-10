@@ -15,7 +15,8 @@ Of course, this was a very simple explanation. There are many things to know abo
 ├── Models                    # Models to be used when creating the filter
 |   ├── Inner Circles         # Circle models to be found on the inner side 
 |   └── Outer Circles         # Circle models to be found on the outer side 
-├── Scripts                   # Scripts required for the program to work 
+├── functions.py              
+├── main.py                    
 ├── LICENSE
 ├── requirements.txt                   
 └── README.md
