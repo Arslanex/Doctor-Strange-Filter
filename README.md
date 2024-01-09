@@ -38,7 +38,7 @@ Of course, this was a very simple explanation. There are many things to know abo
 
 <p align="center">
 
-[video](https://user-images.githubusercontent.com/44752389/221367008-c1dc0215-e486-43b8-ac88-f0c4d5c822c3)
+https://github.com/Arslanex/Doctor-Strange-Filter/assets/44752389/c2e8a8bb-c874-4dd5-8721-8ce3ca51d8b8
 
 </p>
 
