@@ -1,97 +1,106 @@
 import cv2 as cv
 import mediapipe as mp
-from functions import position_data, calculate_distance, draw_line, asd
+import json
+from functions import position_data, calculate_distance, draw_line, overlay_image
 
-INNER_CIRCLE = "Models/inner_circles/orange.png"
-OUTER_CIRCLE = "Models/outer_circles/orange.png"
+def load_config(path: str = "config.json") -> dict:
+    """Loads the configuration from a JSON file."""
+    with open(path, "r") as file:
+        return json.load(file)
 
-# Camera Setup
-cap = cv.VideoCapture(0)
-cap.set(3, 1280)
-cap.set(4, 720)
+def limit_value(val: int, min_val: int, max_val: int) -> int:
+    """Clamps a value between a given min and max."""
+    return max(min(val, max_val), min_val)
 
-# Mediapipe setup for handlandmarks
-mpDraw = mp.solutions.drawing_utils
-mpHands = mp.solutions.hands
-hands = mpHands.Hands()
+def initialize_camera(config: dict) -> cv.VideoCapture:
+    """Initializes the webcam with given width, height, and device ID."""
+    cap = cv.VideoCapture(config["camera"]["device_id"])
+    cap.set(cv.CAP_PROP_FRAME_WIDTH, config["camera"]["width"])
+    cap.set(cv.CAP_PROP_FRAME_HEIGHT, config["camera"]["height"])
+    if not cap.isOpened():
+        raise RuntimeError("Failed to open the webcam.")
+    return cap
 
-# Initials
-inner_circle = cv.imread(INNER_CIRCLE, -1)
-outer_circle = cv.imread(OUTER_CIRCLE, -1)
+def load_images(config: dict) -> tuple:
+    """Loads overlay images and raises an error if any are missing."""
+    inner_circle = cv.imread(config["overlay"]["inner_circle_path"], -1)
+    outer_circle = cv.imread(config["overlay"]["outer_circle_path"], -1)
+    if inner_circle is None or outer_circle is None:
+        raise FileNotFoundError("Failed to load one or more overlay images.")
+    return inner_circle, outer_circle
 
-LINE_COLOR = (0, 140, 255)
-deg = 0
+def process_frame(frame, hands, config, inner_circle, outer_circle, deg):
+    """Processes the frame, applies overlays, and returns the updated frame."""
+    h, w, _ = frame.shape
+    rgb_frame = cv.cvtColor(frame, cv.COLOR_BGR2RGB)
+    results = hands.process(rgb_frame)
 
-# Main Loop
-while cap.isOpened():
-    _, frame = cap.read()
-    frame = cv.flip(frame, 1)
-    rgbFrame = cv.cvtColor(frame, cv.COLOR_BGR2RGB)
-
-    results = hands.process(rgbFrame)
     if results.multi_hand_landmarks:
-        for hand in results.multi_hand_landmarks:
-            lmLists = []
-            for id, lm in enumerate(hand.landmark):
-                h,w,_ = frame.shape
-                lmLists.append([int(lm.x * w), int(lm.y * h)])
+        for hand_landmarks in results.multi_hand_landmarks:
+            lm_list = [(int(lm.x * w), int(lm.y * h)) for lm in hand_landmarks.landmark]
 
-            coordinates = position_data(lmLists)
-            wrist, thumb_tip, index_mcp, index_tip, midle_mcp, midle_tip, ring_tip, pinky_tip = coordinates[0],coordinates[1], coordinates[2],coordinates[3], coordinates[4],coordinates[5], coordinates[6],coordinates[7] 
+            (wrist, thumb_tip, index_mcp, index_tip,
+             middle_mcp, middle_tip, ring_tip, pinky_tip) = position_data(lm_list)
+
             index_wrist_distance = calculate_distance(wrist, index_mcp)
-            index_pinks_distance = calculate_distance(index_tip, pinky_tip)
-            ratio = index_pinks_distance/index_wrist_distance
+            index_pinky_distance = calculate_distance(index_tip, pinky_tip)
+            ratio = index_pinky_distance / index_wrist_distance
 
-            # Not enough
-            if (1.3 > ratio > 0.5):
-                frame=draw_line(frame, wrist, thumb_tip)
-                frame=draw_line(frame, wrist, index_tip)
-                frame=draw_line(frame, wrist, midle_tip)
-                frame=draw_line(frame, wrist, ring_tip)
-                frame=draw_line(frame, wrist, pinky_tip)
-                frame=draw_line(frame, thumb_tip, index_tip)
-                frame=draw_line(frame, thumb_tip, midle_tip)
-                frame=draw_line(frame, thumb_tip, ring_tip)
-                frame=draw_line(frame, thumb_tip, pinky_tip)
-            
-            elif (ratio > 1.3):
-                centerx = midle_mcp[0]
-                centery = midle_mcp[1]
-                shield_size = 3.0
-                diameter = round(index_wrist_distance * shield_size)
-                x1 = round(centerx - (diameter / 2))
-                y1 = round(centery - (diameter / 2))
-                h, w, c = frame.shape
-                if x1 < 0:
-                    x1 = 0
-                elif x1 > w:
-                    x1 = w
-                if y1 < 0:
-                    y1 = 0
-                elif y1 > h:
-                    y1 = h
-                if x1 + diameter > w:
-                    diameter = w - x1
-                if y1 + diameter > h:
-                    diameter = h - y1
-                shield_size = diameter, diameter
-                ang_vel = 2.0
-                deg = deg + ang_vel
-                if deg > 360:
-                    deg = 0
-                hei, wid, col = outer_circle.shape
-                cen = (wid // 2, hei // 2)
-                M1 = cv.getRotationMatrix2D(cen, round(deg), 1.0)
-                M2 = cv.getRotationMatrix2D(cen, round(360 - deg), 1.0)
-                rotated1 = cv.warpAffine(outer_circle, M1, (wid, hei))
-                rotated2 = cv.warpAffine(inner_circle, M2, (wid, hei))
-                if (diameter != 0):
-                    frame = asd(rotated1, frame, x1, y1, shield_size)
-                    frame = asd(rotated2, frame, x1, y1, shield_size)
+            if 0.5 < ratio < 1.3:
+                fingers = [thumb_tip, index_tip, middle_tip, ring_tip, pinky_tip]
+                for finger in fingers:
+                    frame = draw_line(frame, wrist, finger,
+                                      color=tuple(config["line_settings"]["color"]),
+                                      thickness=config["line_settings"]["thickness"])
+                for i in range(len(fingers) - 1):
+                    frame = draw_line(frame, fingers[i], fingers[i + 1],
+                                      color=tuple(config["line_settings"]["color"]),
+                                      thickness=config["line_settings"]["thickness"])
 
-    cv.imshow("Image", frame)
-    if cv.waitKey(1) == ord("q"):
-        break
+            elif ratio >= 1.3:
+                center_x, center_y = middle_mcp
+                diameter = round(index_wrist_distance * config["overlay"]["shield_size_multiplier"])
 
-cap.release()
-cv.destroyAllWindows()
+                x1 = limit_value(center_x - diameter // 2, 0, w)
+                y1 = limit_value(center_y - diameter // 2, 0, h)
+                diameter = min(diameter, w - x1, h - y1)
+
+                deg = (deg + config["overlay"]["rotation_degree_increment"]) % 360
+                M1 = cv.getRotationMatrix2D((outer_circle.shape[1] // 2, outer_circle.shape[0] // 2), deg, 1.0)
+                M2 = cv.getRotationMatrix2D((inner_circle.shape[1] // 2, inner_circle.shape[0] // 2), -deg, 1.0)
+
+                rotated_outer = cv.warpAffine(outer_circle, M1, (outer_circle.shape[1], outer_circle.shape[0]))
+                rotated_inner = cv.warpAffine(inner_circle, M2, (inner_circle.shape[1], inner_circle.shape[0]))
+
+                frame = overlay_image(rotated_outer, frame, x1, y1, (diameter, diameter))
+                frame = overlay_image(rotated_inner, frame, x1, y1, (diameter, diameter))
+
+    return frame, deg
+
+def main():
+    """Main function to run the application."""
+    config = load_config()
+    cap = initialize_camera(config)
+    inner_circle, outer_circle = load_images(config)
+    hands = mp.solutions.hands.Hands()
+    deg = 0
+
+    try:
+        while cap.isOpened():
+            success, frame = cap.read()
+            if not success:
+                print("Failed to capture frame.")
+                break
+
+            frame = cv.flip(frame, 1)
+            frame, deg = process_frame(frame, hands, config, inner_circle, outer_circle, deg)
+
+            cv.imshow("Image", frame)
+            if cv.waitKey(1) == ord(config["keybindings"]["quit_key"]):
+                break
+    finally:
+        cap.release()
+        cv.destroyAllWindows()
+
+if __name__ == "__main__":
+    main()
